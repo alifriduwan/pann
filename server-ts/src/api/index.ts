@@ -1,15 +1,13 @@
 import Router from 'koa-router'
+import { authMiddleware } from '../auth'
 import announcement from './announcement'
-import userResult from './user_result'
+import user_result from './user_result'
+
 
 const apiRouter = new Router()
 
-apiRouter.get('/api/greet', (ctx,next) => {
-    ctx.body = {msg: 'Hello world'}
-})
+apiRouter.use('/api/announcement', authMiddleware, announcement.routes())
+apiRouter.use('/api/userResult', authMiddleware, user_result.routes())
 
-apiRouter.use('/api/announcement',announcement.routes())
-
-apiRouter.use('api/userResult',userResult.routes())
 
 export default apiRouter
