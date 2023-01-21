@@ -1,6 +1,8 @@
 import Koa from 'koa'
 import json from 'koa-json'
 import apiRouter from './api'
+import appConfig from './config'
+import loadFixtures from './fixture'
 
 const app = new Koa()
 
