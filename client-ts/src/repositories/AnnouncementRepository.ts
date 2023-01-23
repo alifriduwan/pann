@@ -1,5 +1,14 @@
+// import { config } from "process";
 import Announcement from "../models/Announcement"; 
 import { IRepository } from "./IRepository";
+import { ax } from "../config";
+import config from "../config";
+
+
+export interface AnnouncementFilter {
+    keyword?: string
+}
+
 
 export class AnnouncementRepository implements IRepository<Announcement> {
     get(id: string | number): Promise<Announcement | null> {
@@ -14,12 +23,12 @@ export class AnnouncementRepository implements IRepository<Announcement> {
     delete(id: string | number): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async getAll(): Promise<Announcement[] | null> {
-        return[
-          {
-            id: 1, topic:'240-124 Midterm 1/2566',description: 'คะแนน quiz ครั้งที่ 1',remarkIfPositive:'1',
-            remarkIfNegative:'0',pubDateTime: new Date('2022-12-21 10:00:00'), userCode:'suthon.s'
-          }
-        ]
+    urlPrefix = config.remoteRepositoryUrlPrefix
+
+    async getAll(filter: AnnouncementFilter): Promise<Announcement[] | null> {
+        const params = {...filter}
+        const resp = await ax.get<Announcement[]>(`${this.urlPrefix}/announcement`,{params})
+        return resp.data
+
     }
 }
