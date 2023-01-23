@@ -4,21 +4,22 @@ import { Box } from "@mui/system";
 import { PushPin, Close, CheckCircle } from '@mui/icons-material/';
 import UserResult, { ResultType } from "../models/UserResult";
 import Repo from '../repositories'
-import React from "react";
+
 
 interface Prop {
-  userResult: UserResult
+  userResult: UserResult;
+  onUpdateUserResult:(userResult:UserResult) => void;
 }
 
 function UserResultCard(props: Prop) {
-  const [userResult, setUserResult] = useState<UserResult>(props.userResult);
-  const [popup, setPopup] = useState(false);
+  const userResult = props.userResult
+  const [popup,setPopup] = useState(false);
 
   const onOpenPopup = async () => {
     if(!userResult.viewDateTime){
       const result = await Repo.userResults.view(userResult.id)
       if(result) {
-        setUserResult(result)
+        props.onUpdateUserResult(result)
         setPopup(true)
       }
     }else{
@@ -29,16 +30,24 @@ function UserResultCard(props: Prop) {
   const handleAcknowledge = async () => {
     const result = await Repo.userResults.acknowledge(userResult.id)
     if(result) {
-      setUserResult(result)
+      props.onUpdateUserResult(result)
     }
   };
 
   const handleToggleIsPinned = async () => {
-    const result = await Repo.userResults.toggleIsPinned(userResult.id)
-    if(result) {
-      setUserResult(result)
-    }
-  };
+    if(userResult.isPinned){
+      const result = await Repo.userResults.toggleIsPinned(userResult.id,0)
+      if(result){
+          props.onUpdateUserResult(result)
+      }
+      return
+  }
+  const result = await Repo.userResults.toggleIsPinned(userResult.id,1)
+  if(result){
+      props.onUpdateUserResult(result)
+  }
+}
+
 
   const getConditionalRemark = () => {
     if(userResult.resultType === ResultType.POSITIVE){
