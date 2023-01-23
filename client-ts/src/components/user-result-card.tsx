@@ -120,3 +120,4 @@ function UserResultCard(props: Prop) {
 }
 
 
+export default UserResultCard;
