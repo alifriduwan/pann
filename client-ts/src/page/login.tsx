@@ -53,7 +53,7 @@ function Login() {
   }
 
   return (
-    <div className='backgroun-login'>
+    <div className='backgroun-login-1'>
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 500 }}>
       <Button variant='contained' sx={{ fontSize: 'large' }} onClick={() => void auth.signinRedirect()}>
         <LoginIcon sx={{ mr: 1 }} />

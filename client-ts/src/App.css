@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+body{
+    background-image: url("https://cdn.pixabay.com/photo/2022/12/23/01/25/steering-7673519__340.jpg");
+    background-repeat: repeat;
+    background-position: center center;
+    background-size: cover;
+}
