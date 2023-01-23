@@ -5,7 +5,7 @@ import { Login as LoginIcon } from '@mui/icons-material';
 import { useAuth } from "react-oidc-context";
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAppCtx } from '../AppProvider';
-import React from 'react';
+
 
 function Login() {
 
@@ -53,12 +53,14 @@ function Login() {
   }
 
   return (
+    <div className='backgroun-login'>
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 500 }}>
       <Button variant='contained' sx={{ fontSize: 'large' }} onClick={() => void auth.signinRedirect()}>
         <LoginIcon sx={{ mr: 1 }} />
         Log in
       </Button>
     </Box>
+    </div>
   );
 };
 
