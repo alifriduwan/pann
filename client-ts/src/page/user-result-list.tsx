@@ -1,11 +1,11 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect,useCallback, useState } from 'react';
 import { Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import PannAppBar from '../components/pann-app-bar';
 import UserResultCard from '../components/user-result-card';
 import UserResult from '../models/UserResult';
 import Repo from '../repositories'
-import React from 'react';
+// import React from 'react';
 
 function UserResultList() {
   const [userResultList, setUserResultList] = useState<UserResult[]>([])
@@ -37,9 +37,15 @@ function UserResultList() {
     setSearchFilter(event.target.value);
   };
 
+  const fetchUserResultListCb = useCallback(fetchUserResultList,[searchFilter, selectFilter, userResultList.length])
+
   useEffect(() => {
-    fetchUserResultList()
-  }, [selectFilter, searchFilter])
+    fetchUserResultListCb().then(()=>{
+      // clean up function
+      return ()=>console.log("Clean Up")
+    })
+  }, [selectFilter, searchFilter, fetchUserResultListCb])
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>

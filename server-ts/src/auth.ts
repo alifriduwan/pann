@@ -16,17 +16,28 @@ export async function initSsoCert(){
         console.log(public_key)  
   }
 
-  export async function verifyJwt(token: string){
-    return new Promise<any>((resolve, reject) => {
-        jwt.verify(token, public_key as jwt.Secret, { issuer: appConfig.ssoIssuer, algorithms: ['RS256'] },(err,decoded) => {
+export async function verifyJwt(token: string){
+    if(appConfig.isDev && token.startsWith('DEV::')){
+        const items = token.split('::')
+        const data =  {
+          preferred_username: items[1],
+          groups: ['student']
+        }
+        if(items.length >= 3 && items[2] == '1'){
+          data.groups.push('staff')
+        }
+        return data    
+}
+        return new Promise<any>((resolve, reject) => {
+            jwt.verify(token, public_key as jwt.Secret, { issuer: appConfig.ssoIssuer, algorithms: ['RS256'] }, (err, decoded)=>{
             if(err){
                 reject(err)
             }else{
                 resolve(decoded)
             }
+            })
         })
-    })
-}
+    }
 
 const BEARER_PREFIX = 'Bearer '
 export async function authMiddleware(ctx: Koa.Context, next: () => Promise<any>) {
@@ -45,4 +56,4 @@ export async function authMiddleware(ctx: Koa.Context, next: () => Promise<any>)
     ctx.response.status = 401    
 }
 
-export default {}
+    export default {}
