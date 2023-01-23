@@ -38,8 +38,9 @@
 }
 
 body{
-    background-image: url("https://cdn.pixabay.com/photo/2022/12/23/01/25/steering-7673519__340.jpg");
-    background-repeat: repeat;
-    background-position: center center;
-    background-size: cover;
+  background-image: url("images/v1016-a-08.jpg");
+  background-repeat: repeat;
+  background-position: center center;
+  background-size: cover;
 }
+
