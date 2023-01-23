@@ -1,6 +1,7 @@
 import React from "react"
 import { Navigate, Route, Routes, useLocation } from "react-router-dom"
 import { useAppCtx } from "../AppProvider"
+import AnnouncementList from "../page/announcement-list"
 
 import Login from "../page/login"
 import UserResultList from "../page/user-result-list"
@@ -31,6 +32,9 @@ const AppRoutes = () => {
             <Route index element={<Login />} />
             <Route path="login" element={<Login />}/>
             <Route path="home" element={<ProtectedRoute><UserResultList/></ProtectedRoute>} />
+            <Route path="announcement" element={<ProtectedRoute><AnnouncementList/>
+      </ProtectedRoute>} />
+
         </Routes>
     );
 };
